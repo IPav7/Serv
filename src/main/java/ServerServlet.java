@@ -52,7 +52,7 @@ public class ServerServlet extends HttpServlet {
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
         }
-        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         System.out.println(user);
     }
 }

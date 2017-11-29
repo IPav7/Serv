@@ -24,7 +24,7 @@ public class MyFilter implements Filter {
         Cookie[] cookies = request.getCookies();
         if (cookies!=null){
             for (Cookie cookie : cookies){
-                System.out.println(cookie.getValue());
+                System.out.println(cookie.getName());
                 if(names.contains(cookie.getValue())) {
                     found = true;
                 }
