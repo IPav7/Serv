@@ -4,4 +4,24 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <servlet>
+        <servlet-name>ServerServlet</servlet-name>
+        <servlet-class>ServerServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ServerServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>Filter</filter-name>
+        <filter-class>MyFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Filter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
 </web-app>

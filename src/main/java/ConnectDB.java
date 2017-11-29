@@ -17,7 +17,7 @@ public class ConnectDB {
     public ConnectDB() {
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/messengerdb?user=root&password=root");
+            connection = DriverManager.getConnection(URL, USER,PASSWORD);
             if(!connection.isClosed())
                 System.out.println("CONNECTED");
         }
