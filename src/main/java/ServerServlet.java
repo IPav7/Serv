@@ -46,7 +46,7 @@ public class ServerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String operation = req.getParameter("operation");
     }
 
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
