@@ -1,3 +1,5 @@
+import jdk.net.SocketFlow;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -15,9 +17,11 @@ import java.sql.Statement;
  */
 public class ServerServlet extends HttpServlet {
     ConnectDB connectDB;
+    UserActions userActions;
     @Override
     public void init() throws ServletException {
         connectDB = new ConnectDB();
+        userActions = new UserActions(connectDB.getConnection());
     }
 
     @Override
@@ -27,21 +31,6 @@ public class ServerServlet extends HttpServlet {
             loginOperation(req, resp);
         else if(operation.equals("messages"))
             messagesOperation(req, resp);
-     /*   try {
-            Statement statement = connectDB.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM test where login = '" + name + "' and password" +
-                    " = '" + password + "'");
-            resp.setContentType("text/html");
-            PrintWriter writer = resp.getWriter();
-            if(resultSet.next()) {
-                writer.write(String.valueOf(resultSet.getInt(1)));
-                System.out.println(resultSet.getInt(1));
-            }
-            else writer.write("0");
-
-        }catch (SQLException e){
-            System.out.println("err");
-        }*/
     }
 
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
@@ -57,29 +46,13 @@ public class ServerServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = new User(login, password);
-
-        try {
-            Statement statement = connectDB.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM test where login = '" + user.getLogin() + "' and password" +
-                    " = '" + user.getPassword() + "'");
-            resp.setContentType("text/html");
-            PrintWriter writer = resp.getWriter();
-            if(resultSet.next()) {
-                Cookie cookie = new Cookie("login", login);
-                cookie.setMaxAge(1800);
-                MyFilter.names.add(login);
-                resp.addCookie(cookie);
-                writer.write("ok");
-            }
-            else writer.write("0");
-
-        }catch (SQLException e){
-            System.out.println("err");
+        if(userActions.userExist(user)) {
+            Cookie cookie = new Cookie("login", login);
+            MyFilter.names.add(login);
+            resp.addCookie(cookie);
+            resp.setStatus(HttpServletResponse.SC_OK);
         }
-        catch (IOException ex){
-            System.out.println("erergd");
-        }
-
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         System.out.println(user);
     }
 }
