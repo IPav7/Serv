@@ -44,6 +44,11 @@ public class ServerServlet extends HttpServlet {
         }*/
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
+
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
         try {
             resp.getWriter().write("signin ok");
