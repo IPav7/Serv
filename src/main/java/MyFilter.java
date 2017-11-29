@@ -30,7 +30,7 @@ public class MyFilter implements Filter {
                 }
             }
         }
-        if(found || request.getParameter("operation").equals("login"))
+        if(found || request.getParameter("operation").equals("login") || request.getParameter("operation").equals("register"))
         filterChain.doFilter(servletRequest, servletResponse);
         else servletResponse.getWriter().write("No access");
     }

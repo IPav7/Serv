@@ -1,3 +1,7 @@
+import jdk.internal.util.xml.impl.Input;
+
+import java.io.InputStream;
+
 /**
  * Created by Igor Pavinich on 28.11.2017.
  */
@@ -5,6 +9,9 @@ public class User {
     private int id;
     private String login;
     private String password;
+    private String name;
+    private String surname;
+    private InputStream picture;
 
     public User(int id, String login, String password) {
         this.id = id;
@@ -15,6 +22,26 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    public User(String login, String password, String name, String surname, InputStream picture) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.picture = picture;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public InputStream getPicture() {
+        return picture;
     }
 
     @Override

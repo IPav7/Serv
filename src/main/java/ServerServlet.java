@@ -11,13 +11,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * Created by Igor Pavinich on 29.11.2017.
+ */
 public class ServerServlet extends HttpServlet {
     ConnectDB connectDB;
+    private UserActions userActions;
     private InputStream inImage;
     @Override
     public void init() throws ServletException {
         connectDB = new ConnectDB();
+        userActions = new UserActions(connectDB.getConnection());
     }
 
     @Override
@@ -29,57 +33,19 @@ public class ServerServlet extends HttpServlet {
             registerOperation(req,resp);
         else if(operation.equals("messages"))
             messagesOperation(req, resp);
-     /*   try {
-            Statement statement = connectDB.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM test where login = '" + name + "' and password" +
-                    " = '" + password + "'");
-            resp.setContentType("text/html");
-            PrintWriter writer = resp.getWriter();
-            if(resultSet.next()) {
-                writer.write(String.valueOf(resultSet.getInt(1)));
-                System.out.println(resultSet.getInt(1));
-            }
-            else writer.write("0");
-
-        }catch (SQLException e){
-            System.out.println("err");
-        }*/
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String operation = req.getParameter("operation");
-        if(operation.equals("register"))
-            requestPicture(req, resp);
-    }
-
-    private void requestPicture(HttpServletRequest req,HttpServletResponse resp) throws IOException {
-        int len = req.getContentLength();
-        System.out.println(len);
-        byte[] input = new byte[len];
-        ServletInputStream sin = req.getInputStream();
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        while((nRead = sin.read(input,0,input.length))!= -1){
-            buffer.write(input,0,nRead);
-        }
-        buffer.flush();
-        inImage = new ByteArrayInputStream(buffer.toByteArray());
-            /*BufferedImage bImageFromConvert = ImageIO.read(inImage);
-            ImageIO.write(bImageFromConvert,"jpg",new File("1.jpg"));*/
-        PrintWriter writer = resp.getWriter();
-        writer.write("picture upload");
     }
 
     private void registerOperation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         PrintWriter wr = resp.getWriter();
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
+/*
         try {
             Statement statement = connectDB.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
+            ResultSet rs = statement.executeQuery("SELECT * FROM user where login = '" + login +"'");
             if(rs.next() == true){
                 wr.write("Exist");
                 return;
@@ -89,8 +55,9 @@ public class ServerServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         try {
-            PreparedStatement ps = connectDB.getConnection().prepareStatement("INSERT INTO users (name,surname,login,password,picture) " +
+            PreparedStatement ps = connectDB.getConnection().prepareStatement("INSERT INTO user (name,surname,login,password,picture) " +
                     "VALUES(?,?,?,?,?)");
             ps.setString(1,name);
             ps.setString(2,surname);
@@ -103,6 +70,52 @@ public class ServerServlet extends HttpServlet {
             wr.write("data upload");
         }catch (Exception e){
 
+        }*/
+
+        User user = new User(login,password,name,surname,inImage);
+        if(userActions.registerUser(user)){
+            Cookie cookie = new Cookie("login",login);
+            MyFilter.names.add(login);
+            resp.addCookie(cookie);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        }
+        else
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String operation = req.getParameter("operation");
+        if(operation.equals("register"))
+            requestPicture(req,resp);
+    }
+
+    private void requestPicture(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            int len = req.getContentLength();
+            System.out.println(len);
+            byte[] input = new byte[len];
+            ServletInputStream sin = req.getInputStream();
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int nRead;
+            while((nRead = sin.read(input,0,input.length))!= -1){
+                buffer.write(input,0,nRead);
+            }
+            buffer.flush();
+            inImage = new ByteArrayInputStream(buffer.toByteArray());
+            /*BufferedImage bImageFromConvert = ImageIO.read(inImage);
+            ImageIO.write(bImageFromConvert,"jpg",new File("1.jpg"));*/
+
+
+            PrintWriter writer = resp.getWriter();
+            writer.write("picture upload");
+        } catch (IOException e) {
+            try{
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.getWriter().print(e.getMessage());
+                resp.getWriter().close();
+            } catch (IOException ioe) {
+            }
         }
     }
 
@@ -119,29 +132,13 @@ public class ServerServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = new User(login, password);
-
-        try {
-            Statement statement = connectDB.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM test where login = '" + user.getLogin() + "' and password" +
-                    " = '" + user.getPassword() + "'");
-            resp.setContentType("text/html");
-            PrintWriter writer = resp.getWriter();
-            if(resultSet.next()) {
-                Cookie cookie = new Cookie("login", login);
-                cookie.setMaxAge(1800);
-                MyFilter.names.add(login);
-                resp.addCookie(cookie);
-                writer.write("ok");
-            }
-            else writer.write("0");
-
-        }catch (SQLException e){
-            System.out.println("err");
+        if(userActions.userExist(user)) {
+            Cookie cookie = new Cookie("login", login);
+            MyFilter.names.add(login);
+            resp.addCookie(cookie);
+            resp.setStatus(HttpServletResponse.SC_OK);
         }
-        catch (IOException ex){
-            System.out.println("erergd");
-        }
-
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         System.out.println(user);
     }
 }

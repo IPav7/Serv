@@ -5,7 +5,7 @@ import java.sql.DriverManager;
  * Created by Igor Pavinich on 03.11.2017.
  */
 public class ConnectDB {
-    private final String URL =  "jdbc:mysql://localhost:3306/messengerdb?autoReconnect=true&useSSL=false";
+    private final String URL =  "jdbc:mysql://localhost:3306/messenger?autoReconnect=true&useSSL=false";
     private final String USER = "root";
     private final String PASSWORD = "root";
     Connection connection;
