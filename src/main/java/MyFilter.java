@@ -22,15 +22,22 @@ public class MyFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         boolean found = false;
         Cookie[] cookies = request.getCookies();
+        System.out.print("cookies: ");
+        for (String s :
+                names) {
+            System.out.print(s + " ");
+        }
         if (cookies!=null){
             for (Cookie cookie : cookies){
-                System.out.println(cookie.getName());
-                if(names.contains(cookie.getValue())) {
+                System.out.println("\ncookie: " + cookie.getName());
+                if(names.contains(cookie.getName())) {
                     found = true;
+                    System.out.println("found");
                 }
             }
         }
-        if(found || request.getParameter("operation").equals("login"))
+        if(found || request.getParameter("operation").equals("login")
+                 || request.getParameter("operation").equals("register"))
         filterChain.doFilter(servletRequest, servletResponse);
         else servletResponse.getWriter().write("No access");
     }
