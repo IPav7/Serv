@@ -1,16 +1,15 @@
-import jdk.net.SocketFlow;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -35,6 +34,32 @@ public class ServerServlet extends HttpServlet {
             registerOperation(req,resp);
         else if(operation.equals("messages"))
             messagesOperation(req, resp);
+        else if(operation.equals("profile")) {
+            profileOperation(req, resp);
+        }
+    }
+
+    private void profileOperation(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("1profileoperation");
+        String login = req.getParameter("login");
+        if(login == null)
+        login = req.getCookies()[0].getName();
+        User user = userActions.getUserByLogin(login);
+        if(user != null)
+        {
+            System.out.println("3profileoperation");
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            System.out.println("4json " + json);
+            try {
+                resp.getWriter().write(json);
+            }catch (IOException e)
+            {
+                System.out.println("err send");
+            }
+            resp.setStatus(HttpServletResponse.SC_OK);
+        }
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void registerOperation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -59,7 +84,6 @@ public class ServerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");
         if(operation.equals("register")) {
-            System.out.println("doPost");
             requestPicture(req, resp);
         }
     }
@@ -76,17 +100,11 @@ public class ServerServlet extends HttpServlet {
                 buffer.write(input,0,nRead);
             }
             buffer.flush();
-            System.out.println(Arrays.toString(buffer.toByteArray()));
             inImage = new ByteArrayInputStream(buffer.toByteArray());
             if(len>0) resp.setStatus(HttpServletResponse.SC_OK);
             else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (IOException e) {
-            try{
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().print(e.getMessage());
-                resp.getWriter().close();
-            } catch (IOException ioe) {
-            }
         }
     }
 

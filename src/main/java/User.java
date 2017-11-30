@@ -11,6 +11,9 @@ public class User {
     private String surname;
     private InputStream picture;
 
+    public User() {
+    }
+
     public User(int id, String login, String password) {
         this.id = id;
         this.login = login;
@@ -27,6 +30,18 @@ public class User {
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.picture = picture;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setPicture(InputStream picture) {
         this.picture = picture;
     }
 

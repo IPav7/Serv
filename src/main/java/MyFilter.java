@@ -1,6 +1,7 @@
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,24 +23,17 @@ public class MyFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         boolean found = false;
         Cookie[] cookies = request.getCookies();
-        System.out.print("cookies: ");
-        for (String s :
-                names) {
-            System.out.print(s + " ");
-        }
         if (cookies!=null){
             for (Cookie cookie : cookies){
-                System.out.println("\ncookie: " + cookie.getName());
                 if(names.contains(cookie.getName())) {
                     found = true;
-                    System.out.println("found");
                 }
             }
         }
         if(found || request.getParameter("operation").equals("login")
                  || request.getParameter("operation").equals("register"))
         filterChain.doFilter(servletRequest, servletResponse);
-        else servletResponse.getWriter().write("No access");
+        else ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     public void destroy() {

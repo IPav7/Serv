@@ -37,17 +37,25 @@ public class UserActions {
         return true;
     }
 
-    public int getIdByLogin(String login){
+    public User getUserByLogin(String login){
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM users where login = '" + login + "'");
-            if(resultSet.next()) {
-                return resultSet.getInt(1);
+            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
+            if(rs.next())
+            {
+                User user = new User();
+                user.setId(rs.getInt(1));
+                user.setName(rs.getString(2));
+                user.setSurname(rs.getString(3));
+                user.setLogin(rs.getString(4));
+                user.setPicture(rs.getBlob(6).getBinaryStream());
+                System.out.println("2getUserByLogin " + user);
+                return user;
             }
         }catch (SQLException e){
             System.out.println("err");
         }
-        return -1;
+        return null;
     }
 
     public boolean userExist(User user){
