@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,18 +41,47 @@ public class ServerServlet extends HttpServlet {
     }
 
     private void profileOperation(HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println("1profileoperation");
+        if(req.getParameter("type").equals("info"))
+            getProfileInfo(req, resp);
+        else getProfileImage(req, resp);
+    }
+
+    private void getProfileImage(HttpServletRequest req, HttpServletResponse resp) {
         String login = req.getParameter("login");
         if(login == null)
-        login = req.getCookies()[0].getName();
-        User user = userActions.getUserByLogin(login);
+            login = req.getCookies()[0].getName();
+        InputStream inputStream = userActions.getUserImageByLogin(login);
+        if(inputStream != null)
+        {
+            try {
+                ServletOutputStream out = resp.getOutputStream();
+                resp.setContentType("image/jpg");
+                int length;
+                byte[] buf = new byte[1024];
+                while ((length = inputStream.read(buf)) != -1){
+                    out.write(buf, 0, length);
+                }
+                inputStream.close();
+                out.flush();
+            }catch (IOException e)
+            {
+                System.out.println("err send");
+            }
+            resp.setStatus(HttpServletResponse.SC_OK);
+        }
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void getProfileInfo(HttpServletRequest req, HttpServletResponse resp) {
+        String login = req.getParameter("login");
+        if(login == null)
+            login = req.getCookies()[0].getName();
+        User user = userActions.getUserInfoByLogin(login);
         if(user != null)
         {
-            System.out.println("3profileoperation");
-            Gson gson = new Gson();
-            String json = gson.toJson(user);
-            System.out.println("4json " + json);
             try {
+                Gson gson = new Gson();
+                String json = gson.toJson(user);
                 resp.getWriter().write(json);
             }catch (IOException e)
             {
@@ -91,7 +121,6 @@ public class ServerServlet extends HttpServlet {
     private void requestPicture(HttpServletRequest req, HttpServletResponse resp) {
         try {
             int len = req.getContentLength();
-            System.out.println(len);
             byte[] input = new byte[len];
             ServletInputStream sin = req.getInputStream();
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 
 /**
@@ -37,7 +38,21 @@ public class UserActions {
         return true;
     }
 
-    public User getUserByLogin(String login){
+    public InputStream getUserImageByLogin(String login){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
+            if(rs.next())
+            {
+                return rs.getBlob(6).getBinaryStream();
+            }
+        }catch (SQLException e){
+            System.out.println("err");
+        }
+        return null;
+    }
+
+    public User getUserInfoByLogin(String login){
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
@@ -48,8 +63,6 @@ public class UserActions {
                 user.setName(rs.getString(2));
                 user.setSurname(rs.getString(3));
                 user.setLogin(rs.getString(4));
-                user.setPicture(rs.getBlob(6).getBinaryStream());
-                System.out.println("2getUserByLogin " + user);
                 return user;
             }
         }catch (SQLException e){
