@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by Igor Pavinich on 29.11.2017.
@@ -83,5 +84,24 @@ public class UserActions {
             System.out.println("err");
         }
         return false;
+    }
+
+    public ArrayList<User> getUsersList() {
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users");
+            while (rs.next())
+            {
+                User user = new User();
+                user.setName(rs.getString(2));
+                user.setSurname(rs.getString(3));
+                user.setLogin(rs.getString(4));
+                users.add(user);
+            }
+        }catch (SQLException e){
+            System.out.println("err");
+        }
+        return users;
     }
 }

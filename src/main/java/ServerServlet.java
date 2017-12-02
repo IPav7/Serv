@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -11,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -35,9 +37,26 @@ public class ServerServlet extends HttpServlet {
             registerOperation(req,resp);
         else if(operation.equals("messages"))
             messagesOperation(req, resp);
-        else if(operation.equals("profile")) {
+        else if(operation.equals("profile"))
             profileOperation(req, resp);
+        else if(operation.equals("search"))
+            searchOperation(req, resp);
+    }
+
+    private void searchOperation(HttpServletRequest req, HttpServletResponse resp) {
+        ArrayList<User> users = userActions.getUsersList();
+        if(users!=null){
+            try{
+                Gson gson = new Gson();
+                String json = gson.toJson(users);
+                ArrayList<User> users1 = gson.fromJson(json, new TypeToken<ArrayList<User>>(){}.getType());
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void profileOperation(HttpServletRequest req, HttpServletResponse resp) {
@@ -54,6 +73,8 @@ public class ServerServlet extends HttpServlet {
         if(inputStream != null)
         {
             try {
+                resp.setContentLength(inputStream.available());
+                resp.addHeader("Cache-Control", "no-cache");
                 ServletOutputStream out = resp.getOutputStream();
                 resp.setContentType("image/jpg");
                 int length;
