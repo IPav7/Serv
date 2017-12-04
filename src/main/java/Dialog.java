@@ -1,23 +1,72 @@
+import java.util.Date;
+
 /**
  * Created by Igor Pavinich on 27.11.2017.
  */
 public class Dialog {
-    private int sender;
-    private int receiver;
+    private String second;
     private String lastMessage;
+    private Date date;
+    private boolean unread;
+    private String name;
 
-    public Dialog(int sender, int receiver, String lastMessage) {
-        this.sender = sender;
-        this.receiver = receiver;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Dialog() {
+    }
+
+    public Dialog(String second, String lastMessage, Date date, boolean unread) {
+        this.second = second;
         this.lastMessage = lastMessage;
+        this.date = date;
+        this.unread = unread;
     }
 
     @Override
     public String toString() {
         return "Dialog{" +
-                "sender=" + sender +
-                ", receiver=" + receiver +
+                "second='" + second + '\'' +
                 ", lastMessage='" + lastMessage + '\'' +
+                ", date=" + date +
+                ", unread=" + unread +
                 '}';
+    }
+
+    public String getSecond() {
+        return second;
+    }
+
+    public void setSecond(String second) {
+        this.second = second;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public boolean isUnread() {
+        return unread;
+    }
+
+    public void setUnread(boolean unread) {
+        this.unread = unread;
     }
 }

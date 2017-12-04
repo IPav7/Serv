@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Igor Pavinich on 29.11.2017.
@@ -103,5 +105,73 @@ public class UserActions {
             System.out.println("err");
         }
         return users;
+    }
+
+    public ArrayList<Dialog> getDialogs(String login) {
+        ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM dialogs_" + login);
+            while (rs.next())
+            {
+                Dialog dialog = new Dialog();
+                String second = rs.getString(1);
+                dialog.setDate(getLastMessageDate(login, second).getDate());
+                dialog.setLastMessage(getLastMessageDate(login, second).getLastMessage());
+                dialog.setSecond(second);
+                dialog.setName(getUserInfoByLogin(second).getSurname() + " " + getUserInfoByLogin(second).getName());
+                dialog.setUnread(rs.getBoolean(2));
+                dialogs.add(dialog);
+            }
+        }catch (SQLException e){
+            System.out.println("err");
+        }
+        return dialogs;
+    }
+
+    //select * from messages_ipav7
+    //where (sender = 'ipav7' and receiver = 'emk') or (sender = 'emk' and receiver = 'ipav7')
+    // order by date desc limit 1;
+
+    private Dialog getLastMessageDate(String sender, String receiver){
+        Dialog dialog = new Dialog();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM messages_" + sender +
+                    " where (sender = '" + sender + "' and receiver = '" + receiver + "')" +
+                    "or (sender = '" + receiver + "' and receiver = '" + sender + "')" +
+                    "order by date desc limit 1");
+            if(rs.next()){
+                dialog.setLastMessage(rs.getString(3));
+                Timestamp timestamp = rs.getTimestamp(4);
+                dialog.setDate(new Date(timestamp.getTime()));
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return dialog;
+    }
+
+    public ArrayList<Message> getMessages(String name, String receiver) {
+        ArrayList<Message> messages = new ArrayList<Message>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM messages_" + name +
+                    " where (sender = '" + name + "' and receiver = '" + receiver + "')" +
+                    "or (sender = '" + receiver + "' and receiver = '" + name + "')" +
+                    "order by date desc");
+            while (rs.next()){
+                Message message = new Message();
+                message.setSender(rs.getString(1));
+                message.setReceiver(rs.getString(2));
+                message.setMessage(rs.getString(3));
+                Timestamp timestamp = rs.getTimestamp(4);
+                message.setDate(new Date(timestamp.getTime()));
+                messages.add(message);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return messages;
     }
 }

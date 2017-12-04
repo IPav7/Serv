@@ -8,12 +8,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Igor Pavinich on 29.11.2017.
@@ -35,12 +35,52 @@ public class ServerServlet extends HttpServlet {
             loginOperation(req, resp);
         else if(operation.equals("register"))
             registerOperation(req,resp);
-        else if(operation.equals("messages"))
-            messagesOperation(req, resp);
+        else if(operation.equals("dialogs"))
+            dialogsOperation(req, resp);
         else if(operation.equals("profile"))
             profileOperation(req, resp);
         else if(operation.equals("search"))
             searchOperation(req, resp);
+        else if(operation.equals("messages"))
+            messagesOperation(req, resp);
+    }
+
+    private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println(req.getCookies()[0].getName() + " " +
+                req.getParameter("receiver"));
+        ArrayList<Message> messages = userActions.getMessages(req.getCookies()[0].getName(),
+                req.getParameter("receiver"));
+        if(messages!=null) {
+            try{
+                Gson gson = new Gson();
+                String json = gson.toJson(messages);
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            for (Message message :
+                    messages) {
+                System.out.println(message);
+            }
+        }else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void dialogsOperation(HttpServletRequest req, HttpServletResponse resp) {
+            ArrayList<Dialog> dialogs = userActions.getDialogs(req.getCookies()[0].getName());
+            if(dialogs!=null) {
+                try{
+                    Gson gson = new Gson();
+                    String json = gson.toJson(dialogs);
+                    resp.getWriter().write(json);
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+                for (Dialog dialog : dialogs) {
+                    System.out.println(dialog);
+                }
+            }else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void searchOperation(HttpServletRequest req, HttpServletResponse resp) {
@@ -49,7 +89,6 @@ public class ServerServlet extends HttpServlet {
             try{
                 Gson gson = new Gson();
                 String json = gson.toJson(users);
-                ArrayList<User> users1 = gson.fromJson(json, new TypeToken<ArrayList<User>>(){}.getType());
                 resp.getWriter().write(json);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } catch (IOException e) {
@@ -69,6 +108,7 @@ public class ServerServlet extends HttpServlet {
         String login = req.getParameter("login");
         if(login == null)
             login = req.getCookies()[0].getName();
+        System.out.println(login);
         InputStream inputStream = userActions.getUserImageByLogin(login);
         if(inputStream != null)
         {
@@ -130,7 +170,6 @@ public class ServerServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");
@@ -155,16 +194,6 @@ public class ServerServlet extends HttpServlet {
             else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (IOException e) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
-
-
-    private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-            resp.getWriter().write("signin ok");
-        }
-        catch (IOException e){
-            System.out.println("xcvbn");
         }
     }
 
