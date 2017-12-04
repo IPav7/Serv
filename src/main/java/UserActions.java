@@ -19,10 +19,9 @@ public class UserActions {
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + user.getLogin() +"'");
-            if(rs.next() == true){
+            if(rs.next() == true) {
                 return false;
             }
-
             PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name,surname,login,password,picture) " +
                     "VALUES(?,?,?,?,?)");
             ps.setString(1,user.getName());
@@ -33,6 +32,14 @@ public class UserActions {
             ps.executeUpdate();
             user.getPicture().close();
             ps.close();
+            statement.executeQuery("CREATE TABLE dialogs_" + user.getLogin() + " (\n" +
+                    "  `second` VARCHAR(20) NOT NULL,\n" +
+                    "  `unread` boolean NOT NULL);");
+            statement.executeQuery("CREATE TABLE messages_" + user.getLogin() + " (\n" +
+                    "  `sender` VARCHAR(20) NOT NULL,\n" +
+                    "  `receiver` VARCHAR(20) NOT NULL,\n" +
+                    "  `message` VARCHAR(200) NOT NULL,\n" +
+                    "  `date` DATETIME NOT NULL);");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
