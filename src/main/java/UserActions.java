@@ -187,7 +187,7 @@ public class UserActions {
             ps.setString(1,message.getSender());
             ps.setString(2,message.getReceiver());
             ps.setString(3,message.getMessage());
-            ps.setDate(4, new java.sql.Date(message.getDate()));
+            ps.setTimestamp(4, new Timestamp(Calendar.getInstance().getTimeInMillis()));
             ps.executeUpdate();
             ps.close();
             Statement statement = connection.createStatement();
@@ -204,7 +204,7 @@ public class UserActions {
             ps2.setString(1,message.getSender());
             ps2.setString(2,message.getReceiver());
             ps2.setString(3,message.getMessage());
-            ps2.setDate(4,new java.sql.Date(message.getDate()));
+            ps2.setTimestamp(4, new Timestamp(Calendar.getInstance().getTimeInMillis()));
             ps2.executeUpdate();
             ps2.close();
 

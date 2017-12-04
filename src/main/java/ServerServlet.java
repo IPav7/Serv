@@ -72,6 +72,7 @@ public class ServerServlet extends HttpServlet {
                     });
                     Gson gson = new Gson();
                     String json = gson.toJson(dialogs);
+                    resp.setCharacterEncoding("windows-1251");
                     resp.getWriter().write(json);
                     resp.setStatus(HttpServletResponse.SC_OK);
                 }catch (Exception e){
@@ -86,6 +87,7 @@ public class ServerServlet extends HttpServlet {
             try{
                 Gson gson = new Gson();
                 String json = gson.toJson(users);
+                resp.setCharacterEncoding("windows-1251");
                 resp.getWriter().write(json);
                 resp.setStatus(HttpServletResponse.SC_OK);
             } catch (IOException e) {
@@ -139,6 +141,7 @@ public class ServerServlet extends HttpServlet {
             try {
                 Gson gson = new Gson();
                 String json = gson.toJson(user);
+                resp.setCharacterEncoding("windows-1251");
                 resp.getWriter().write(json);
             }catch (IOException e)
             {
@@ -178,6 +181,7 @@ public class ServerServlet extends HttpServlet {
 
     private void getMessageOperation(HttpServletRequest req, HttpServletResponse resp) {
         try {
+            req.setCharacterEncoding("windows-1251");
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     req.getInputStream()));
             Message message = new Gson().fromJson(in.readLine(), Message.class);
@@ -209,6 +213,7 @@ public class ServerServlet extends HttpServlet {
     }
 
     private void loginOperation(HttpServletRequest req, HttpServletResponse resp) {
+        resp.setCharacterEncoding("windows-1251");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = new User(login, password);
