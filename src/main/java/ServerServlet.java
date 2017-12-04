@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -46,22 +45,17 @@ public class ServerServlet extends HttpServlet {
     }
 
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
-        System.out.println(req.getCookies()[0].getName() + " " +
-                req.getParameter("receiver"));
         ArrayList<Message> messages = userActions.getMessages(req.getCookies()[0].getName(),
                 req.getParameter("receiver"));
         if(messages!=null) {
             try{
                 Gson gson = new Gson();
                 String json = gson.toJson(messages);
+                resp.setCharacterEncoding("windows-1251");
                 resp.getWriter().write(json);
                 resp.setStatus(HttpServletResponse.SC_OK);
             }catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-            for (Message message :
-                    messages) {
-                System.out.println(message);
+                e.printStackTrace();
             }
         }else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
@@ -70,15 +64,18 @@ public class ServerServlet extends HttpServlet {
             ArrayList<Dialog> dialogs = userActions.getDialogs(req.getCookies()[0].getName());
             if(dialogs!=null) {
                 try{
+                    dialogs.sort(new Comparator<Dialog>() {
+                        @Override
+                        public int compare(Dialog o1, Dialog o2) {
+                            return new Date(o2.getDate()).compareTo(new Date(o1.getDate()));
+                        }
+                    });
                     Gson gson = new Gson();
                     String json = gson.toJson(dialogs);
                     resp.getWriter().write(json);
                     resp.setStatus(HttpServletResponse.SC_OK);
                 }catch (Exception e){
-                    System.out.println(e.getMessage());
-                }
-                for (Dialog dialog : dialogs) {
-                    System.out.println(dialog);
+                    e.printStackTrace();
                 }
             }else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
@@ -108,7 +105,6 @@ public class ServerServlet extends HttpServlet {
         String login = req.getParameter("login");
         if(login == null)
             login = req.getCookies()[0].getName();
-        System.out.println(login);
         InputStream inputStream = userActions.getUserImageByLogin(login);
         if(inputStream != null)
         {
@@ -126,7 +122,7 @@ public class ServerServlet extends HttpServlet {
                 out.flush();
             }catch (IOException e)
             {
-                System.out.println("err send");
+                e.printStackTrace();
             }
             resp.setStatus(HttpServletResponse.SC_OK);
         }
@@ -146,7 +142,7 @@ public class ServerServlet extends HttpServlet {
                 resp.getWriter().write(json);
             }catch (IOException e)
             {
-                System.out.println("err send");
+                e.printStackTrace();
             }
             resp.setStatus(HttpServletResponse.SC_OK);
         }
@@ -175,6 +171,21 @@ public class ServerServlet extends HttpServlet {
         String operation = req.getParameter("operation");
         if(operation.equals("register")) {
             requestPicture(req, resp);
+        }
+        if(operation.equals("sendmessage"))
+            getMessageOperation(req, resp);
+    }
+
+    private void getMessageOperation(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    req.getInputStream()));
+            Message message = new Gson().fromJson(in.readLine(), Message.class);
+            in.close();
+            message.setDate(System.currentTimeMillis());
+            userActions.addMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -208,6 +219,5 @@ public class ServerServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_OK);
         }
         else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        System.out.println(user);
     }
 }

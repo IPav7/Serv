@@ -6,13 +6,13 @@ import java.util.Date;
 public class Message {
     private String sender;
     private String receiver;
-    private Date date;
+    private long date;
     private String message;
 
     public Message() {
     }
 
-    public Message(String sender, String receiver, Date date, String message) {
+    public Message(String sender, String receiver, long date, String message) {
         this.sender = sender;
         this.receiver = receiver;
         this.date = date;
@@ -45,11 +45,11 @@ public class Message {
         this.receiver = receiver;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

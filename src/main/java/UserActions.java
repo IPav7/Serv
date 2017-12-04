@@ -19,7 +19,7 @@ public class UserActions {
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + user.getLogin() +"'");
-            if(rs.next() == true) {
+            if(rs.next()) {
                 return false;
             }
             PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name,surname,login,password,picture) " +
@@ -32,14 +32,16 @@ public class UserActions {
             ps.executeUpdate();
             user.getPicture().close();
             ps.close();
-            statement.executeQuery("CREATE TABLE dialogs_" + user.getLogin() + " (\n" +
-                    "  `second` VARCHAR(20) NOT NULL,\n" +
-                    "  `unread` boolean NOT NULL);");
-            statement.executeQuery("CREATE TABLE messages_" + user.getLogin() + " (\n" +
-                    "  `sender` VARCHAR(20) NOT NULL,\n" +
-                    "  `receiver` VARCHAR(20) NOT NULL,\n" +
-                    "  `message` VARCHAR(200) NOT NULL,\n" +
-                    "  `date` DATETIME NOT NULL);");
+           // statement = connection.createStatement();
+            statement.executeUpdate("CREATE TABLE dialogs_" + user.getLogin() + " (" +
+                    "second VARCHAR(20) NOT NULL, " +
+                    " unread boolean NOT NULL);");
+           // statement = connection.createStatement();
+            statement.executeUpdate("CREATE TABLE messages_" + user.getLogin() + " (" +
+                    "sender VARCHAR(20) NOT NULL, " +
+                    " receiver VARCHAR(20) NOT NULL, " +
+                    " message VARCHAR(200) NOT NULL, " +
+                    " date DATETIME NOT NULL);");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -57,7 +59,7 @@ public class UserActions {
                 return rs.getBlob(6).getBinaryStream();
             }
         }catch (SQLException e){
-            System.out.println("err");
+            e.printStackTrace();
         }
         return null;
     }
@@ -76,7 +78,7 @@ public class UserActions {
                 return user;
             }
         }catch (SQLException e){
-            System.out.println("err");
+            e.printStackTrace();
         }
         return null;
     }
@@ -90,7 +92,7 @@ public class UserActions {
                 return true;
             }
         }catch (SQLException e){
-            System.out.println("err");
+            e.printStackTrace();
         }
         return false;
     }
@@ -109,7 +111,7 @@ public class UserActions {
                 users.add(user);
             }
         }catch (SQLException e){
-            System.out.println("err");
+            e.printStackTrace();
         }
         return users;
     }
@@ -131,14 +133,10 @@ public class UserActions {
                 dialogs.add(dialog);
             }
         }catch (SQLException e){
-            System.out.println("err");
+            e.printStackTrace();
         }
         return dialogs;
     }
-
-    //select * from messages_ipav7
-    //where (sender = 'ipav7' and receiver = 'emk') or (sender = 'emk' and receiver = 'ipav7')
-    // order by date desc limit 1;
 
     private Dialog getLastMessageDate(String sender, String receiver){
         Dialog dialog = new Dialog();
@@ -151,34 +149,67 @@ public class UserActions {
             if(rs.next()){
                 dialog.setLastMessage(rs.getString(3));
                 Timestamp timestamp = rs.getTimestamp(4);
-                dialog.setDate(new Date(timestamp.getTime()));
+                dialog.setDate(timestamp.getTime());
             }
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return dialog;
     }
 
     public ArrayList<Message> getMessages(String name, String receiver) {
-        ArrayList<Message> messages = new ArrayList<Message>();
+        ArrayList<Message> messages = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM messages_" + name +
                     " where (sender = '" + name + "' and receiver = '" + receiver + "')" +
                     "or (sender = '" + receiver + "' and receiver = '" + name + "')" +
-                    "order by date desc");
+                    "order by date");
             while (rs.next()){
                 Message message = new Message();
                 message.setSender(rs.getString(1));
                 message.setReceiver(rs.getString(2));
                 message.setMessage(rs.getString(3));
-                Timestamp timestamp = rs.getTimestamp(4);
-                message.setDate(new Date(timestamp.getTime()));
+                message.setDate(rs.getTimestamp(4).getTime());
                 messages.add(message);
             }
+            statement.executeUpdate("update dialogs_" + name + " set unread = FALSE where second = '" + receiver + "';");
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return messages;
+    }
+
+    public void addMessage(Message message) {
+        try{
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO messages_" + message.getSender() +
+                    " VALUES(?,?,?,?)");
+            ps.setString(1,message.getSender());
+            ps.setString(2,message.getReceiver());
+            ps.setString(3,message.getMessage());
+            ps.setDate(4, new java.sql.Date(message.getDate()));
+            ps.executeUpdate();
+            ps.close();
+            Statement statement = connection.createStatement();
+            ResultSet set = statement.executeQuery("SELECT * FROM dialogs_" + message.getSender() + " WHERE second = '" + message.getReceiver() + "'");
+            if(!set.next()){
+                statement.executeUpdate("INSERT INTO dialogs_" + message.getSender() + " VALUES ('" + message.getReceiver() + "', FALSE)");
+            }
+            set = statement.executeQuery("SELECT * FROM dialogs_" + message.getReceiver() + " WHERE second = '" + message.getSender() + "'");
+            if(!set.next()){
+                statement.executeUpdate("INSERT INTO dialogs_" + message.getReceiver() + " VALUES ('" + message.getSender() + "', TRUE )");
+            }else statement.executeUpdate("update dialogs_" + message.getReceiver() + " set unread = true where second = '" + message.getSender() + "';");
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO messages_" + message.getReceiver() +
+                    " VALUES(?,?,?,?)");
+            ps2.setString(1,message.getSender());
+            ps2.setString(2,message.getReceiver());
+            ps2.setString(3,message.getMessage());
+            ps2.setDate(4,new java.sql.Date(message.getDate()));
+            ps2.executeUpdate();
+            ps2.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
