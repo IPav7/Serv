@@ -1,5 +1,3 @@
-import jdk.internal.util.xml.impl.Input;
-
 import java.io.InputStream;
 
 /**
@@ -12,6 +10,9 @@ public class User {
     private String name;
     private String surname;
     private InputStream picture;
+
+    public User() {
+    }
 
     public User(int id, String login, String password) {
         this.id = id;
@@ -29,6 +30,18 @@ public class User {
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.picture = picture;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setPicture(InputStream picture) {
         this.picture = picture;
     }
 

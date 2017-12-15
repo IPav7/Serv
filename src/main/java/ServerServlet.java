@@ -1,23 +1,23 @@
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
-/**
- * Created by Igor Pavinich on 29.11.2017.
- */
+
 public class ServerServlet extends HttpServlet {
     ConnectDB connectDB;
-    private UserActions userActions;
-    private InputStream inImage;
+    UserActions userActions;
+    private InputStream inImage = null;
+
     @Override
     public void init() throws ServletException {
         connectDB = new ConnectDB();
@@ -27,118 +27,191 @@ public class ServerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");
-        if(operation.equals("login"))
+        if (operation.equals("login"))
             loginOperation(req, resp);
-        else if(operation.equals("register"))
-            registerOperation(req,resp);
-        else if(operation.equals("messages"))
+        else if (operation.equals("register"))
+            registerOperation(req, resp);
+        else if (operation.equals("dialogs"))
+            dialogsOperation(req, resp);
+        else if (operation.equals("profile"))
+            profileOperation(req, resp);
+        else if (operation.equals("search"))
+            searchOperation(req, resp);
+        else if (operation.equals("messages"))
             messagesOperation(req, resp);
     }
 
-    private void registerOperation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
+        ArrayList<Message> messages = userActions.getMessages(req.getCookies()[0].getName(),
+                req.getParameter("receiver"));
+        if (messages != null) {
+            try {
+                Gson gson = new Gson();
+                String json = gson.toJson(messages);
+                resp.setCharacterEncoding("windows-1251");
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
 
-        PrintWriter wr = resp.getWriter();
+    private void dialogsOperation(HttpServletRequest req, HttpServletResponse resp) {
+        ArrayList<Dialog> dialogs = userActions.getDialogs(req.getCookies()[0].getName());
+        if (dialogs != null) {
+            try {
+                dialogs.sort(new Comparator<Dialog>() {
+                    @Override
+                    public int compare(Dialog o1, Dialog o2) {
+                        return new Date(o2.getDate()).compareTo(new Date(o1.getDate()));
+                    }
+                });
+                Gson gson = new Gson();
+                String json = gson.toJson(dialogs);
+                resp.setCharacterEncoding("windows-1251");
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void searchOperation(HttpServletRequest req, HttpServletResponse resp) {
+        ArrayList<User> users = userActions.getUsersList();
+        if (users != null) {
+            try {
+                Gson gson = new Gson();
+                String json = gson.toJson(users);
+                resp.setCharacterEncoding("windows-1251");
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void profileOperation(HttpServletRequest req, HttpServletResponse resp) {
+        if (req.getParameter("type").equals("info"))
+            getProfileInfo(req, resp);
+        else getProfileImage(req, resp);
+    }
+
+    private void getProfileImage(HttpServletRequest req, HttpServletResponse resp) {
+        String login = req.getParameter("login");
+        String size = req.getParameter("size");
+        if (login == null)
+            login = req.getCookies()[0].getName();
+        InputStream inputStream = userActions.getUserImageByLogin(login, size);
+        if (inputStream != null) {
+            try {
+                resp.setContentLength(inputStream.available());
+                resp.addHeader("Cache-Control", "no-cache");
+                ServletOutputStream out = resp.getOutputStream();
+                resp.setContentType("image/jpg");
+                int length;
+                byte[] buf = new byte[1024];
+                while ((length = inputStream.read(buf)) != -1) {
+                    out.write(buf, 0, length);
+                }
+                inputStream.close();
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void getProfileInfo(HttpServletRequest req, HttpServletResponse resp) {
+        String login = req.getParameter("login");
+        if (login == null)
+            login = req.getCookies()[0].getName();
+        User user = userActions.getUserInfoByLogin(login);
+        if (user != null) {
+            try {
+                Gson gson = new Gson();
+                String json = gson.toJson(user);
+                resp.setCharacterEncoding("windows-1251");
+                resp.getWriter().write(json);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    }
+
+    private void registerOperation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
-/*
-        try {
-            Statement statement = connectDB.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM user where login = '" + login +"'");
-            if(rs.next() == true){
-                wr.write("Exist");
-                return;
-            }else{
-                System.out.println("Not Exist");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            PreparedStatement ps = connectDB.getConnection().prepareStatement("INSERT INTO user (name,surname,login,password,picture) " +
-                    "VALUES(?,?,?,?,?)");
-            ps.setString(1,name);
-            ps.setString(2,surname);
-            ps.setString(3,login);
-            ps.setString(4,password);
-            ps.setBlob(5,inImage);
-            ps.executeUpdate();
-            inImage.close();
-            ps.close();
-            wr.write("data upload");
-        }catch (Exception e){
-
-        }*/
-
-        User user = new User(login,password,name,surname,inImage);
-        if(userActions.registerUser(user)){
-            Cookie cookie = new Cookie("login",login);
-            MyFilter.names.add(login);
+        User user = new User(login, password, name, surname, inImage);
+        if (userActions.registerUser(user)) {
+            Cookie cookie = new Cookie("login", login);
+            if (!MyFilter.names.contains(login)) MyFilter.names.add(login);
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
-        }
-        else
+        } else
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");
-        if(operation.equals("register"))
-            requestPicture(req,resp);
+        if (operation.equals("register")) {
+            requestPicture(req, resp);
+        }
+        if (operation.equals("sendmessage"))
+            getMessageOperation(req, resp);
+    }
+
+    private void getMessageOperation(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            req.setCharacterEncoding("windows-1251");
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    req.getInputStream()));
+            Message message = new Gson().fromJson(in.readLine(), Message.class);
+            in.close();
+            message.setDate(System.currentTimeMillis());
+            userActions.addMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void requestPicture(HttpServletRequest req, HttpServletResponse resp) {
         try {
             int len = req.getContentLength();
-            System.out.println(len);
             byte[] input = new byte[len];
             ServletInputStream sin = req.getInputStream();
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
-            while((nRead = sin.read(input,0,input.length))!= -1){
-                buffer.write(input,0,nRead);
+            while ((nRead = sin.read(input, 0, input.length)) != -1) {
+                buffer.write(input, 0, nRead);
             }
             buffer.flush();
             inImage = new ByteArrayInputStream(buffer.toByteArray());
-            /*BufferedImage bImageFromConvert = ImageIO.read(inImage);
-            ImageIO.write(bImageFromConvert,"jpg",new File("1.jpg"));*/
-
-
-            PrintWriter writer = resp.getWriter();
-            writer.write("picture upload");
+            if (len > 0) resp.setStatus(HttpServletResponse.SC_OK);
+            else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (IOException e) {
-            try{
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().print(e.getMessage());
-                resp.getWriter().close();
-            } catch (IOException ioe) {
-            }
-        }
-    }
-
-    private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-            resp.getWriter().write("signin ok");
-        }
-        catch (IOException e){
-            System.out.println("xcvbn");
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
     private void loginOperation(HttpServletRequest req, HttpServletResponse resp) {
+        resp.setCharacterEncoding("windows-1251");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = new User(login, password);
-        if(userActions.userExist(user)) {
+        if (userActions.userExist(user)) {
             Cookie cookie = new Cookie("login", login);
-            MyFilter.names.add(login);
+            if (!MyFilter.names.contains(login)) MyFilter.names.add(login);
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
-        }
-        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        System.out.println(user);
+        } else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 }

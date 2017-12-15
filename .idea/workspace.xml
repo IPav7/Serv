@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Serv:war" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ad270cc-c677-43e3-b81e-078910bbc28f" name="Default" comment="add doPost&#10;add doGet - Register" />
+    <list default="true" id="8ad270cc-c677-43e3-b81e-078910bbc28f" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Serv_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/Serv_war_exploded.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Serv.iml" afterPath="$PROJECT_DIR$/Serv.iml" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ConnectDB.java" afterPath="$PROJECT_DIR$/src/main/java/ConnectDB.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Dialog.java" afterPath="$PROJECT_DIR$/src/main/java/Dialog.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MessagesServlet.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MyFilter.java" afterPath="$PROJECT_DIR$/src/main/java/MyFilter.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ServerServlet.java" afterPath="$PROJECT_DIR$/src/main/java/ServerServlet.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/User.java" afterPath="$PROJECT_DIR$/src/main/java/User.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/UserActions.java" afterPath="$PROJECT_DIR$/src/main/java/UserActions.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -11,23 +30,58 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="ServerServlet.java" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ServerServlet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="45" lean-forward="true" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+            <state relative-caret-position="816">
+              <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <marker date="1511981493192" expanded="true" signature="3314:3362" ph="SELECT * FRO... users" />
-                <marker date="1511981493192" expanded="true" signature="3713:3811" ph="INSERT INTO users... " />
-                <marker date="1511981493192" expanded="true" signature="4802:4929" ph="SELECT * FRO... test" />
+                <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+                <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserActions.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+              <folding>
+                <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+                <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+                <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+                <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+                <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+                <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+                <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+                <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+                <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+                <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+                <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+                <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+                <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -50,7 +104,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/main/java/MyFilter.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ConnectDB.java" />
         <option value="$PROJECT_DIR$/src/main/java/ServerServlet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/UserActions.java" />
       </list>
     </option>
   </component>
@@ -60,12 +119,19 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="311" />
-    <option name="y" value="83" />
-    <option name="width" value="1386" />
-    <option name="height" value="788" />
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
   </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-7" />
+    <option name="width" value="697" />
+    <option name="height" value="745" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -81,7 +147,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,6 +176,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
@@ -119,6 +185,8 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/voidChat-master/VoidChatClient" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -174,12 +242,6 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -214,9 +276,90 @@
       <properties />
       <listeners />
     </configuration>
+    <configuration name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.0.M26" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="Serv:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/mess" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_Serv" />
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50525" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method>
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="Serv:war" />
+        </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -226,6 +369,14 @@
       <option name="presentableId" value="Default" />
       <updated>1511979673071</updated>
       <workItem from="1511979675424" duration="1978000" />
+      <workItem from="1512042439565" duration="773000" />
+      <workItem from="1512047930978" duration="7006000" />
+      <workItem from="1512398077151" duration="4511000" />
+      <workItem from="1512591634423" duration="5068000" />
+      <workItem from="1512765392258" duration="12574000" />
+      <workItem from="1513018346493" duration="6617000" />
+      <workItem from="1513121090708" duration="17963000" />
+      <workItem from="1513336709495" duration="1306000" />
     </task>
     <task id="LOCAL-00001" summary="add doPost">
       <created>1511979846721</created>
@@ -248,45 +399,93 @@
       <option name="project" value="LOCAL" />
       <updated>1511981528527</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Register">
+      <created>1511991782702</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1511991782702</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Register">
+      <created>1511992566235</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1511992566235</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1978000" />
+    <option name="totallyTimeSpent" value="73757000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3503876" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="19" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10614934" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout>
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -333,24 +532,635 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add doPost" />
     <MESSAGE value="add doPost&#10;add doGet - Register" />
-    <option name="LAST_COMMIT_MESSAGE" value="add doPost&#10;add doGet - Register" />
+    <MESSAGE value="Register" />
+    <MESSAGE value="see User Action&#10;add resizeCopy" />
+    <option name="LAST_COMMIT_MESSAGE" value="see User Action&#10;add resizeCopy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="45" lean-forward="true" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+        <state relative-caret-position="1802">
+          <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1511981493192" expanded="true" signature="3314:3362" ph="SELECT * FRO... users" />
-            <marker date="1511981493192" expanded="true" signature="3713:3811" ph="INSERT INTO users... " />
-            <marker date="1511981493192" expanded="true" signature="4802:4929" ph="SELECT * FRO... test" />
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="64" column="74" lean-forward="false" selection-start-line="64" selection-start-column="74" selection-end-line="64" selection-end-column="74" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="55" column="22" lean-forward="false" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="22" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="27" column="50" lean-forward="false" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="21" lean-forward="true" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="27" column="5" lean-forward="false" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConnectDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="21" column="48" lean-forward="false" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="55" column="22" lean-forward="false" selection-start-line="55" selection-start-column="22" selection-end-line="55" selection-end-column="22" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="27" column="50" lean-forward="false" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="103" column="41" lean-forward="false" selection-start-line="103" selection-start-column="41" selection-end-line="103" selection-end-column="41" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="25" column="46" lean-forward="false" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConnectDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="64" lean-forward="false" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="80" column="18" lean-forward="false" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="58" column="22" lean-forward="false" selection-start-line="58" selection-start-column="22" selection-end-line="58" selection-end-column="22" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="50" lean-forward="false" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="70" column="95" lean-forward="false" selection-start-line="70" selection-start-column="95" selection-end-line="70" selection-end-column="95" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConnectDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="21" column="48" lean-forward="false" selection-start-line="21" selection-start-column="48" selection-end-line="21" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="53" column="21" lean-forward="false" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="50" lean-forward="false" selection-start-line="23" selection-start-column="50" selection-end-line="23" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1292">
+          <caret line="84" column="90" lean-forward="false" selection-start-line="84" selection-start-column="90" selection-end-line="84" selection-end-column="90" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="46" column="9" lean-forward="false" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="26" column="46" lean-forward="false" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="29" column="99" lean-forward="false" selection-start-line="28" selection-start-column="9" selection-end-line="29" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="46" column="9" lean-forward="false" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="26" column="46" lean-forward="false" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="29" column="99" lean-forward="false" selection-start-line="28" selection-start-column="9" selection-end-line="29" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-798">
+          <caret line="60" column="53" lean-forward="true" selection-start-line="60" selection-start-column="53" selection-end-line="60" selection-end-column="53" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar!/javax/servlet/http/Cookie.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/misc/IOUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MessagesServlet.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/ConnectDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="27" column="50" lean-forward="false" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+          <folding>
+            <element signature="e#1752#1753#0" expanded="false" />
+            <element signature="e#1783#1784#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-17">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/imageio/ImageIO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="1353" column="16" lean-forward="true" selection-start-line="1353" selection-start-column="16" selection-end-line="1353" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ServerServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <folding>
+            <element signature="method#messagesOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#dialogsOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#searchOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#registerOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#doPost#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#getMessageOperation#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#requestPicture#0;class#ServerServlet#0" expanded="false" />
+            <element signature="method#loginOperation#0;class#ServerServlet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UserActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding>
+            <element signature="method#getDialogs#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getLastMessageDate#0;class#UserActions#0" expanded="false" />
+            <element signature="method#getMessages#0;class#UserActions#0" expanded="false" />
+            <element signature="method#addMessage#0;class#UserActions#0" expanded="false" />
+            <element signature="method#createResizedCopy#0;class#UserActions#0" expanded="false" />
+            <marker date="1513303475789" expanded="true" signature="688:747" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="987:1085" ph="INSERT INTO users... " />
+            <marker date="1513303475789" expanded="true" signature="1529:1679" ph="CREATE TABLE... dialogs_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="1778:2042" ph="CREATE TABLE... messages_missingValue" />
+            <marker date="1513303475789" expanded="true" signature="2421:2470" ph="SELECT * FRO... usersmessanger" />
+            <marker date="1513303475789" expanded="true" signature="3435:3484" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4071:4199" ph="SELECT * FRO... users" />
+            <marker date="1513303475789" expanded="true" signature="4617:4636" ph="SELECT * FRO... users" />
           </folding>
         </state>
       </provider>
