@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Igor Pavinich on 29.11.2017.
@@ -12,21 +15,23 @@ import java.util.ArrayList;
 public class MyFilter implements Filter {
 
     private FilterConfig filterConfig;
-    public static ArrayList<String> names;
+    public static Map<String, Long> names;
 
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
-        names = new ArrayList<String>();
+        names = new HashMap<>();
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         boolean found = false;
         Cookie[] cookies = request.getCookies();
+        Set keys = names.keySet();
         if (cookies!=null){
             for (Cookie cookie : cookies){
-                if(names.contains(cookie.getName())) {
+                if(keys.contains(cookie.getName())) {
                     found = true;
+                    names.put(cookie.getName(), System.currentTimeMillis());
                 }
             }
         }

@@ -10,6 +10,15 @@ public class User {
     private String name;
     private String surname;
     private InputStream picture;
+    private boolean online;
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
     public User() {
     }

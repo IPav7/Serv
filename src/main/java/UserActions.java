@@ -15,6 +15,13 @@ public class UserActions {
         this.connection = connection;
     }
 
+    public boolean isOnline(String login){
+            if(MyFilter.names.keySet().contains(login)) {
+                long lastSeen = MyFilter.names.get(login);
+                return ((System.currentTimeMillis() - lastSeen) < 300000);
+            }else return false;
+    }
+
     public boolean registerUser(User user){
         try {
             Statement statement = connection.createStatement();
@@ -40,8 +47,10 @@ public class UserActions {
             statement.executeUpdate("CREATE TABLE messages_" + user.getLogin() + " (" +
                     "sender VARCHAR(20) NOT NULL, " +
                     " receiver VARCHAR(20) NOT NULL, " +
-                    " message VARCHAR(200) NOT NULL, " +
-                    " date DATETIME NOT NULL);");
+                    " message VARCHAR(200) NOT NULL DEFAULT '', " +
+                    " date DATETIME NOT NULL, " +
+                    " kind VARCHAR(10), " +
+                    " sound MEDIUMBLOB);");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -97,17 +106,19 @@ public class UserActions {
         return false;
     }
 
-    public ArrayList<User> getUsersList() {
+    public ArrayList<User> getUsersList(String query) {
         ArrayList<User> users = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users");
+            ResultSet rs = statement.executeQuery("SELECT * from users WHERE CONCAT_WS('', name, surname, login) LIKE" +
+                    " '%" + query + "%';");
             while (rs.next())
             {
                 User user = new User();
                 user.setName(rs.getString(2));
                 user.setSurname(rs.getString(3));
                 user.setLogin(rs.getString(4));
+                user.setOnline(isOnline(user.getLogin()));
                 users.add(user);
             }
         }catch (SQLException e){
@@ -130,6 +141,7 @@ public class UserActions {
                 dialog.setSecond(second);
                 dialog.setName(getUserInfoByLogin(second).getSurname() + " " + getUserInfoByLogin(second).getName());
                 dialog.setUnread(rs.getBoolean(2));
+                dialog.setType(getLastMessageDate(login, second).getType());
                 dialogs.add(dialog);
             }
         }catch (SQLException e){
@@ -150,6 +162,7 @@ public class UserActions {
                 dialog.setLastMessage(rs.getString(3));
                 Timestamp timestamp = rs.getTimestamp(4);
                 dialog.setDate(timestamp.getTime());
+                dialog.setType(rs.getString(5));
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -171,6 +184,7 @@ public class UserActions {
                 message.setReceiver(rs.getString(2));
                 message.setMessage(rs.getString(3));
                 message.setDate(rs.getTimestamp(4).getTime());
+                message.setType(rs.getString(5));
                 messages.add(message);
             }
             statement.executeUpdate("update dialogs_" + name + " set unread = FALSE where second = '" + receiver + "';");
@@ -180,14 +194,15 @@ public class UserActions {
         return messages;
     }
 
-    public void addMessage(Message message) {
+    public void addTextMessage(Message message) {
         try{
             PreparedStatement ps = connection.prepareStatement("INSERT INTO messages_" + message.getSender() +
-                    " VALUES(?,?,?,?)");
+                    " (sender, receiver, message, date, kind) VALUES(?,?,?,?,?)");
             ps.setString(1,message.getSender());
             ps.setString(2,message.getReceiver());
             ps.setString(3,message.getMessage());
-            ps.setTimestamp(4, new Timestamp(Calendar.getInstance().getTimeInMillis()));
+            ps.setTimestamp(4, new Timestamp(message.getDate()));
+            ps.setString(5, message.getType());
             ps.executeUpdate();
             ps.close();
             Statement statement = connection.createStatement();
@@ -200,16 +215,68 @@ public class UserActions {
                 statement.executeUpdate("INSERT INTO dialogs_" + message.getReceiver() + " VALUES ('" + message.getSender() + "', TRUE )");
             }else statement.executeUpdate("update dialogs_" + message.getReceiver() + " set unread = true where second = '" + message.getSender() + "';");
             PreparedStatement ps2 = connection.prepareStatement("INSERT INTO messages_" + message.getReceiver() +
-                    " VALUES(?,?,?,?)");
+                    " (sender, receiver, message, date, kind) VALUES(?,?,?,?,?)");
             ps2.setString(1,message.getSender());
             ps2.setString(2,message.getReceiver());
             ps2.setString(3,message.getMessage());
-            ps2.setTimestamp(4, new Timestamp(Calendar.getInstance().getTimeInMillis()));
+            ps2.setTimestamp(4, new Timestamp(message.getDate()));
+            ps2.setString(5, message.getType());
             ps2.executeUpdate();
             ps2.close();
-
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void addSoundMessage(Message message) {
+        try{
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO messages_" + message.getSender() +
+                    " (sender, receiver, sound, date, kind) VALUES(?,?,?,?,?)");
+            ps.setString(1,message.getSender());
+            ps.setString(2,message.getReceiver());
+            ps.setBlob(3,message.getSound());
+            if(message.getDate()%(message.getDate()/1000)>=500) message.setDate(message.getDate()-500);
+            ps.setTimestamp(4, new Timestamp(message.getDate()));
+            ps.setString(5, message.getType());
+            ps.executeUpdate();
+            ps.close();
+            Statement statement = connection.createStatement();
+            ResultSet set = statement.executeQuery("SELECT * FROM dialogs_" + message.getSender() + " WHERE second = '" + message.getReceiver() + "'");
+            if(!set.next()){
+                statement.executeUpdate("INSERT INTO dialogs_" + message.getSender() + " VALUES ('" + message.getReceiver() + "', FALSE)");
+            }
+            set = statement.executeQuery("SELECT * FROM dialogs_" + message.getReceiver() + " WHERE second = '" + message.getSender() + "'");
+            if(!set.next()){
+                statement.executeUpdate("INSERT INTO dialogs_" + message.getReceiver() + " VALUES ('" + message.getSender() + "', TRUE )");
+            }else statement.executeUpdate("update dialogs_" + message.getReceiver() + " set unread = true where second = '" + message.getSender() + "';");
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO messages_" + message.getReceiver() +
+                    " (sender, receiver, sound, date, kind) VALUES(?,?,?,?,?)");
+            ps2.setString(1,message.getSender());
+            ps2.setString(2,message.getReceiver());
+            ps2.setBlob(3,message.getSound());
+            ps2.setTimestamp(4, new Timestamp(message.getDate()));
+            ps2.setString(5, message.getType());
+            ps2.executeUpdate();
+            ps2.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public InputStream getMessageSound(String sender, String receiver, long date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("date: " + dateFormat.format(new Date(date)));
+        String time = dateFormat.format(new Date(date));
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT sound FROM messages_" + sender +
+                    " where (sender = '" + sender + "' and receiver = '" + receiver + "' and date = '" + time + "') " +
+                    "or (sender = '" + receiver + "' and receiver = '" + sender + "'" + " and date = '" + time + "')");
+            if(rs.next())
+                return rs.getBlob("sound").getBinaryStream();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

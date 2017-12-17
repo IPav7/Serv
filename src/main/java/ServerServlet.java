@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -9,10 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
 /**
  * Created by Igor Pavinich on 29.11.2017.
@@ -21,6 +19,7 @@ public class ServerServlet extends HttpServlet {
     ConnectDB connectDB;
     UserActions userActions;
     private InputStream inImage = null;
+    private InputStream inSound;
     @Override
     public void init() throws ServletException {
         connectDB = new ConnectDB();
@@ -42,6 +41,34 @@ public class ServerServlet extends HttpServlet {
             searchOperation(req, resp);
         else if(operation.equals("messages"))
             messagesOperation(req, resp);
+        else if(operation.equals("getSound"))
+            getSound(req, resp);
+    }
+
+    private void getSound(HttpServletRequest req, HttpServletResponse resp) {
+        InputStream inputStream = userActions.getMessageSound(req.getParameter("sender"), req.getParameter("receiver"),
+                Long.parseLong(req.getParameter("date")));
+        if(inputStream != null)
+        {
+            try {
+                resp.setContentLength(inputStream.available());
+                resp.addHeader("Cache-Control", "no-cache");
+                ServletOutputStream out = resp.getOutputStream();
+                resp.setContentType("video/3gpp");
+                int length;
+                byte[] buf = new byte[1024];
+                while ((length = inputStream.read(buf)) != -1){
+                    out.write(buf, 0, length);
+                }
+                inputStream.close();
+                out.flush();
+            }catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            resp.setStatus(HttpServletResponse.SC_OK);
+        }
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
@@ -82,7 +109,7 @@ public class ServerServlet extends HttpServlet {
     }
 
     private void searchOperation(HttpServletRequest req, HttpServletResponse resp) {
-        ArrayList<User> users = userActions.getUsersList();
+        ArrayList<User> users = userActions.getUsersList(req.getParameter("value"));
         if(users!=null){
             try{
                 Gson gson = new Gson();
@@ -161,7 +188,7 @@ public class ServerServlet extends HttpServlet {
         User user = new User(login,password,name,surname,inImage);
         if(userActions.registerUser(user)){
             Cookie cookie = new Cookie("login",login);
-            if(!MyFilter.names.contains(login)) MyFilter.names.add(login);
+            if(!MyFilter.names.keySet().contains(login)) MyFilter.names.put(login, System.currentTimeMillis());
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
         }
@@ -172,11 +199,36 @@ public class ServerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");
-        if(operation.equals("register")) {
+        if(operation.equals("register"))
             requestPicture(req, resp);
-        }
-        if(operation.equals("sendmessage"))
+        else if(operation.equals("sendmessage"))
             getMessageOperation(req, resp);
+        else if(operation.equals("sendSound"))
+            getMessageSound(req, resp);
+    }
+
+    private void getMessageSound(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            int len = req.getContentLength();
+            byte[] input = new byte[len];
+            ServletInputStream sin = req.getInputStream();
+            if(sin == null) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int nRead;
+            while((nRead = sin.read(input,0,input.length))!= -1){
+                buffer.write(input,0,nRead);
+            }
+            buffer.flush();
+            inSound = new ByteArrayInputStream(buffer.toByteArray());
+            System.out.println(len);
+            if(len>0) resp.setStatus(HttpServletResponse.SC_OK);
+            else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } catch (IOException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     private void getMessageOperation(HttpServletRequest req, HttpServletResponse resp) {
@@ -186,8 +238,12 @@ public class ServerServlet extends HttpServlet {
                     req.getInputStream()));
             Message message = new Gson().fromJson(in.readLine(), Message.class);
             in.close();
-            message.setDate(System.currentTimeMillis());
-            userActions.addMessage(message);
+            if(message.getType().equals("text"))
+            userActions.addTextMessage(message);
+            else {
+                message.setSound(inSound);
+                userActions.addSoundMessage(message);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -198,6 +254,10 @@ public class ServerServlet extends HttpServlet {
             int len = req.getContentLength();
             byte[] input = new byte[len];
             ServletInputStream sin = req.getInputStream();
+            if(sin == null) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
             while((nRead = sin.read(input,0,input.length))!= -1){
@@ -219,7 +279,7 @@ public class ServerServlet extends HttpServlet {
         User user = new User(login, password);
         if(userActions.userExist(user)) {
             Cookie cookie = new Cookie("login", login);
-            if(!MyFilter.names.contains(login)) MyFilter.names.add(login);
+            if(!MyFilter.names.keySet().contains(login)) MyFilter.names.put(login, System.currentTimeMillis());
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
         }
