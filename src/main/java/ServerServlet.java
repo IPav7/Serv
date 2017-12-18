@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -43,6 +44,14 @@ public class ServerServlet extends HttpServlet {
             messagesOperation(req, resp);
         else if(operation.equals("getSound"))
             getSound(req, resp);
+        else if(operation.equals("editProfile"))
+            editProfile(req, resp);
+    }
+
+    private void editProfile(HttpServletRequest req, HttpServletResponse resp) {
+        if(userActions.editProfile(req.getCookies()[0].getName(), req.getParameter("name"), req.getParameter("surname")))
+        resp.setStatus(HttpServletResponse.SC_OK);
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void getSound(HttpServletRequest req, HttpServletResponse resp) {
@@ -132,9 +141,10 @@ public class ServerServlet extends HttpServlet {
 
     private void getProfileImage(HttpServletRequest req, HttpServletResponse resp) {
         String login = req.getParameter("login");
+        String size = req.getParameter("size");
         if(login == null)
             login = req.getCookies()[0].getName();
-        InputStream inputStream = userActions.getUserImageByLogin(login);
+        InputStream inputStream = userActions.getUserImageByLogin(login, size);
         if(inputStream != null)
         {
             try {
@@ -205,6 +215,15 @@ public class ServerServlet extends HttpServlet {
             getMessageOperation(req, resp);
         else if(operation.equals("sendSound"))
             getMessageSound(req, resp);
+        else if(operation.equals("editProfileImage"))
+            updateProfileImage(req, resp);
+    }
+
+    private void updateProfileImage(HttpServletRequest req, HttpServletResponse resp) {
+        requestPicture(req,resp);
+        if(userActions.editProfileImage(req.getCookies()[0].getName(), inImage))
+            resp.setStatus(HttpURLConnection.HTTP_OK);
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void getMessageSound(HttpServletRequest req, HttpServletResponse resp) {

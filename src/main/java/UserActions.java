@@ -1,3 +1,8 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -59,18 +64,44 @@ public class UserActions {
         return true;
     }
 
-    public InputStream getUserImageByLogin(String login){
+    public InputStream getUserImageByLogin(String login, String size) {
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
-            if(rs.next())
-            {
-                return rs.getBlob(6).getBinaryStream();
+            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login + "'");
+            if (rs.next()) {
+                if (size.equals("full")) {
+                    System.out.println("full");
+                    return rs.getBlob(6).getBinaryStream();
+                } else if (size.equals("small")) {
+                    System.out.println("small");
+                    if(rs.getBlob(6)!=null) {
+                        BufferedImage bufferedImage = createResizedCopy(ImageIO.read(rs.getBlob(6).getBinaryStream()),
+                                60, 60, true);
+                        ByteArrayOutputStream os = new ByteArrayOutputStream();
+                        ImageIO.write(bufferedImage, "jpg", os);
+                        return new ByteArrayInputStream(os.toByteArray());
+                    }
+                }
             }
-        }catch (SQLException e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static BufferedImage createResizedCopy(java.awt.Image originalImage,
+                                                  int scaledWidth, int scaledHeight,
+                                                  boolean preserveAlpha) {
+        System.out.println("resizing...");
+        int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
+        BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
+        Graphics2D g = scaledBI.createGraphics();
+        if (preserveAlpha) {
+            g.setComposite(AlphaComposite.Src);
+        }
+        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
+        g.dispose();
+        return scaledBI;
     }
 
     public User getUserInfoByLogin(String login){
@@ -278,5 +309,28 @@ public class UserActions {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean editProfile(String login, String name, String surname) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update users set name = '" + name + "' where login = '" + login + "';");
+            statement.executeUpdate("update users set surname = '" + surname + "' where login = '" + login + "';");
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    public boolean editProfileImage(String login, InputStream stream) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("update users set picture = ? where login = '" + login + "';");
+            ps.setBlob(1,stream);
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }
