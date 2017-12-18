@@ -34,13 +34,15 @@ public class UserActions {
             if(rs.next()) {
                 return false;
             }
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name,surname,login,password,picture) " +
-                    "VALUES(?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO users (name,surname,login,password,full,small) " +
+                    "VALUES(?,?,?,?,?,?)");
             ps.setString(1,user.getName());
             ps.setString(2,user.getSurname());
             ps.setString(3,user.getLogin());
             ps.setString(4,user.getPassword());
-            ps.setBlob(5,user.getPicture());
+            InputStream[] copies = copyInputStream(user.getPicture());
+            ps.setBlob(5,copies[0]);
+            ps.setBlob(6,copies[1]);
             ps.executeUpdate();
             user.getPicture().close();
             ps.close();
@@ -54,7 +56,7 @@ public class UserActions {
                     " receiver VARCHAR(20) NOT NULL, " +
                     " message VARCHAR(200) NOT NULL DEFAULT '', " +
                     " date DATETIME NOT NULL, " +
-                    " kind VARCHAR(10), " +
+                    " kind varchar(10) NOT NULL, " +
                     " sound MEDIUMBLOB);");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,21 +69,11 @@ public class UserActions {
     public InputStream getUserImageByLogin(String login, String size) {
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login + "'");
+            ResultSet rs;
+            rs = statement.executeQuery("SELECT " + size + " FROM users where login = '" + login + "'");
             if (rs.next()) {
-                if (size.equals("full")) {
-                    System.out.println("full");
-                    return rs.getBlob(6).getBinaryStream();
-                } else if (size.equals("small")) {
-                    System.out.println("small");
-                    if(rs.getBlob(6)!=null) {
-                        BufferedImage bufferedImage = createResizedCopy(ImageIO.read(rs.getBlob(6).getBinaryStream()),
-                                60, 60, true);
-                        ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        ImageIO.write(bufferedImage, "jpg", os);
-                        return new ByteArrayInputStream(os.toByteArray());
-                    }
-                }
+                    Blob blob = rs.getBlob(1);
+                    if(blob!=null) return blob.getBinaryStream();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +84,6 @@ public class UserActions {
     public static BufferedImage createResizedCopy(java.awt.Image originalImage,
                                                   int scaledWidth, int scaledHeight,
                                                   boolean preserveAlpha) {
-        System.out.println("resizing...");
         int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
         BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
         Graphics2D g = scaledBI.createGraphics();
@@ -173,6 +164,7 @@ public class UserActions {
                 dialog.setName(getUserInfoByLogin(second).getSurname() + " " + getUserInfoByLogin(second).getName());
                 dialog.setUnread(rs.getBoolean(2));
                 dialog.setType(getLastMessageDate(login, second).getType());
+                dialog.setOnline(isOnline(second));
                 dialogs.add(dialog);
             }
         }catch (SQLException e){
@@ -201,14 +193,22 @@ public class UserActions {
         return dialog;
     }
 
-    public ArrayList<Message> getMessages(String name, String receiver) {
+    public ArrayList<Message> getMessages(String name, String receiver, String all) {
+        String time;
+        if(all.equals("true"))
+            time = "1970-01-01 03:00:00";
+        else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            time = dateFormat.format(new Date(MyFilter.names.get(name)));
+        }
+        MyFilter.names.put(name, System.currentTimeMillis());
         ArrayList<Message> messages = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM messages_" + name +
-                    " where (sender = '" + name + "' and receiver = '" + receiver + "')" +
-                    "or (sender = '" + receiver + "' and receiver = '" + name + "')" +
-                    "order by date");
+                    " where ((sender = '" + name + "' and receiver = '" + receiver + "')" +
+                    "or (sender = '" + receiver + "' and receiver = '" + name + "'))" +
+                    " and date > '" + time + "' order by date");
             while (rs.next()){
                 Message message = new Message();
                 message.setSender(rs.getString(1));
@@ -232,7 +232,7 @@ public class UserActions {
             ps.setString(1,message.getSender());
             ps.setString(2,message.getReceiver());
             ps.setString(3,message.getMessage());
-            ps.setTimestamp(4, new Timestamp(message.getDate()));
+            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             ps.setString(5, message.getType());
             ps.executeUpdate();
             ps.close();
@@ -250,7 +250,7 @@ public class UserActions {
             ps2.setString(1,message.getSender());
             ps2.setString(2,message.getReceiver());
             ps2.setString(3,message.getMessage());
-            ps2.setTimestamp(4, new Timestamp(message.getDate()));
+            ps2.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             ps2.setString(5, message.getType());
             ps2.executeUpdate();
             ps2.close();
@@ -266,8 +266,9 @@ public class UserActions {
             ps.setString(1,message.getSender());
             ps.setString(2,message.getReceiver());
             ps.setBlob(3,message.getSound());
-            if(message.getDate()%(message.getDate()/1000)>=500) message.setDate(message.getDate()-500);
-            ps.setTimestamp(4, new Timestamp(message.getDate()));
+            long buf = message.getDate();
+            if(buf%(buf/1000)>=500) buf = buf-500;
+            ps.setTimestamp(4, new Timestamp(buf));
             ps.setString(5, message.getType());
             ps.executeUpdate();
             ps.close();
@@ -285,7 +286,7 @@ public class UserActions {
             ps2.setString(1,message.getSender());
             ps2.setString(2,message.getReceiver());
             ps2.setBlob(3,message.getSound());
-            ps2.setTimestamp(4, new Timestamp(message.getDate()));
+            ps2.setTimestamp(4, new Timestamp(buf));
             ps2.setString(5, message.getType());
             ps2.executeUpdate();
             ps2.close();
@@ -321,6 +322,7 @@ public class UserActions {
             return false;
         }
     }
+
     public boolean editProfileImage(String login, InputStream stream) {
         try {
             PreparedStatement ps = connection.prepareStatement("update users set picture = ? where login = '" + login + "';");
@@ -332,5 +334,25 @@ public class UserActions {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private InputStream[] copyInputStream(InputStream input){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = input.read(buffer)) > -1) {
+                baos.write(buffer, 0, len);
+            }
+            baos.flush();
+            BufferedImage bufferedImage = createResizedCopy(ImageIO.read(new ByteArrayInputStream(baos.toByteArray())),
+                    100, 100, true);
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", os);
+            return new InputStream[]{new ByteArrayInputStream(baos.toByteArray()), new ByteArrayInputStream(os.toByteArray())};
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

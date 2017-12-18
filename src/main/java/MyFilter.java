@@ -31,6 +31,7 @@ public class MyFilter implements Filter {
             for (Cookie cookie : cookies){
                 if(keys.contains(cookie.getName())) {
                     found = true;
+                    if(!request.getParameter("operation").equals("messages") && !request.getParameter("operation").equals("sendmessage"))
                     names.put(cookie.getName(), System.currentTimeMillis());
                 }
             }

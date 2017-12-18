@@ -82,13 +82,14 @@ public class ServerServlet extends HttpServlet {
 
     private void messagesOperation(HttpServletRequest req, HttpServletResponse resp) {
         ArrayList<Message> messages = userActions.getMessages(req.getCookies()[0].getName(),
-                req.getParameter("receiver"));
+                req.getParameter("receiver"), req.getParameter("all"));
         if(messages!=null) {
             try{
                 Gson gson = new Gson();
                 String json = gson.toJson(messages);
                 resp.setCharacterEncoding("windows-1251");
                 resp.getWriter().write(json);
+                if(messages.size()>0)
                 resp.setStatus(HttpServletResponse.SC_OK);
             }catch (Exception e){
                 e.printStackTrace();

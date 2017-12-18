@@ -10,6 +10,15 @@ public class Dialog {
     private boolean unread;
     private String name;
     private String type;
+    private boolean online;
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
     public String getType() {
         return type;
