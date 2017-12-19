@@ -46,6 +46,31 @@ public class ServerServlet extends HttpServlet {
             getSound(req, resp);
         else if(operation.equals("editProfile"))
             editProfile(req, resp);
+        else if(operation.equals("friends"))
+            getFriends(req, resp);
+        else if(operation.equals("addFriend"))
+            addFriend(req, resp);
+    }
+
+    private void addFriend(HttpServletRequest req, HttpServletResponse resp) {
+        userActions.addFriend(req.getCookies()[0].getName(), req.getParameter("second"), req.getParameter("add"));
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private void getFriends(HttpServletRequest req, HttpServletResponse resp) {
+        ArrayList<User> users = userActions.getUserFriends(req.getCookies()[0].getName());
+        if(users!=null){
+            try{
+                Gson gson = new Gson();
+                String json = gson.toJson(users);
+                resp.setCharacterEncoding("windows-1251");
+                resp.getWriter().write(json);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
     private void editProfile(HttpServletRequest req, HttpServletResponse resp) {
@@ -173,7 +198,7 @@ public class ServerServlet extends HttpServlet {
         String login = req.getParameter("login");
         if(login == null)
             login = req.getCookies()[0].getName();
-        User user = userActions.getUserInfoByLogin(login);
+        User user = userActions.getUserInfoByLogin(req.getCookies()[0].getName(),login);
         if(user != null)
         {
             try {
@@ -203,8 +228,9 @@ public class ServerServlet extends HttpServlet {
             resp.addCookie(cookie);
             resp.setStatus(HttpServletResponse.SC_OK);
         }
-        else
+        else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 
     @Override
@@ -243,7 +269,6 @@ public class ServerServlet extends HttpServlet {
             }
             buffer.flush();
             inSound = new ByteArrayInputStream(buffer.toByteArray());
-            System.out.println(len);
             if(len>0) resp.setStatus(HttpServletResponse.SC_OK);
             else resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (IOException e) {

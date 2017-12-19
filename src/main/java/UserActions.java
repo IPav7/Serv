@@ -40,13 +40,20 @@ public class UserActions {
             ps.setString(2,user.getSurname());
             ps.setString(3,user.getLogin());
             ps.setString(4,user.getPassword());
-            InputStream[] copies = copyInputStream(user.getPicture());
-            ps.setBlob(5,copies[0]);
-            ps.setBlob(6,copies[1]);
+            if(user.getPicture()!=null) {
+                InputStream[] copies = copyInputStream(user.getPicture());
+                ps.setBlob(5, copies[0]);
+                ps.setBlob(6, copies[1]);
+                user.getPicture().close();
+            }else {
+                ps.setNull(5, Types.NULL);
+                ps.setNull(6, Types.NULL);
+            }
             ps.executeUpdate();
-            user.getPicture().close();
             ps.close();
            // statement = connection.createStatement();
+            statement.executeUpdate("CREATE TABLE friends_" + user.getLogin() + " (" +
+                    "friend VARCHAR(20) NOT NULL);");
             statement.executeUpdate("CREATE TABLE dialogs_" + user.getLogin() + " (" +
                     "second VARCHAR(20) NOT NULL, " +
                     " unread boolean NOT NULL);");
@@ -58,9 +65,7 @@ public class UserActions {
                     " date DATETIME NOT NULL, " +
                     " kind varchar(10) NOT NULL, " +
                     " sound MEDIUMBLOB);");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
@@ -95,7 +100,7 @@ public class UserActions {
         return scaledBI;
     }
 
-    public User getUserInfoByLogin(String login){
+    public User getUserInfoByLogin(String first, String login){
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM users where login = '" + login +"'");
@@ -105,7 +110,9 @@ public class UserActions {
                 user.setId(rs.getInt(1));
                 user.setName(rs.getString(2));
                 user.setSurname(rs.getString(3));
-                user.setLogin(rs.getString(4));
+                user.setOnline(isOnline(login));
+                user.setFriend(isFriend(first, login));
+                user.setLogin(login);
                 return user;
             }
         }catch (SQLException e){
@@ -161,7 +168,7 @@ public class UserActions {
                 dialog.setDate(getLastMessageDate(login, second).getDate());
                 dialog.setLastMessage(getLastMessageDate(login, second).getLastMessage());
                 dialog.setSecond(second);
-                dialog.setName(getUserInfoByLogin(second).getSurname() + " " + getUserInfoByLogin(second).getName());
+                dialog.setName(getUserInfoByLogin(login, second).getSurname() + " " + getUserInfoByLogin(login, second).getName());
                 dialog.setUnread(rs.getBoolean(2));
                 dialog.setType(getLastMessageDate(login, second).getType());
                 dialog.setOnline(isOnline(second));
@@ -201,7 +208,6 @@ public class UserActions {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             time = dateFormat.format(new Date(MyFilter.names.get(name)));
         }
-        MyFilter.names.put(name, System.currentTimeMillis());
         ArrayList<Message> messages = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -209,6 +215,7 @@ public class UserActions {
                     " where ((sender = '" + name + "' and receiver = '" + receiver + "')" +
                     "or (sender = '" + receiver + "' and receiver = '" + name + "'))" +
                     " and date > '" + time + "' order by date");
+            MyFilter.names.put(name, System.currentTimeMillis());
             while (rs.next()){
                 Message message = new Message();
                 message.setSender(rs.getString(1));
@@ -222,6 +229,12 @@ public class UserActions {
         }catch (Exception e){
             e.printStackTrace();
         }
+//        System.out.println("----------------\n" + name + " send: " + time);
+//        for (Message message :
+//                messages) {
+//            System.out.print(message.getMessage() + " ");
+//        }
+//        System.out.println("\n-----------------");
         return messages;
     }
 
@@ -266,7 +279,7 @@ public class UserActions {
             ps.setString(1,message.getSender());
             ps.setString(2,message.getReceiver());
             ps.setBlob(3,message.getSound());
-            long buf = message.getDate();
+            long buf = System.currentTimeMillis();
             if(buf%(buf/1000)>=500) buf = buf-500;
             ps.setTimestamp(4, new Timestamp(buf));
             ps.setString(5, message.getType());
@@ -297,7 +310,6 @@ public class UserActions {
 
     public InputStream getMessageSound(String sender, String receiver, long date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println("date: " + dateFormat.format(new Date(date)));
         String time = dateFormat.format(new Date(date));
         try {
             Statement statement = connection.createStatement();
@@ -325,10 +337,15 @@ public class UserActions {
 
     public boolean editProfileImage(String login, InputStream stream) {
         try {
-            PreparedStatement ps = connection.prepareStatement("update users set picture = ? where login = '" + login + "';");
-            ps.setBlob(1,stream);
+            InputStream[] copies = copyInputStream(stream);
+            PreparedStatement ps = connection.prepareStatement("update users set full = ? where login = '" + login + "';");
+            ps.setBlob(1,copies[0]);
             ps.executeUpdate();
             ps.close();
+            PreparedStatement ps2 = connection.prepareStatement("update users set small = ? where login = '" + login + "';");
+            ps2.setBlob(1,copies[1]);
+            ps2.executeUpdate();
+            ps2.close();
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -354,5 +371,46 @@ public class UserActions {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList<User> getUserFriends(String login) {
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * from friends_" + login + ";");
+            while (rs.next())
+            {
+                users.add(getUserInfoByLogin(login, rs.getString("friend")));
+            }
+            rs.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    private boolean isFriend(String login, String second){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * from friends_" + login + " WHERE friend = '" + second + "';");
+            if (rs.next())
+            return true;
+            else return false;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addFriend(String name, String second, String add) {
+        try {
+            Statement statement = connection.createStatement();
+            if(add.equals("true"))
+            statement.executeUpdate("INSERT INTO friends_" + name + " (friend) VALUES ('" + second + "')");
+            else
+                statement.executeUpdate("DELETE from friends_" + name + " where friend='" + second + "'");
+                 }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
